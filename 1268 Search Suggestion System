@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
+        
+        vector<vector<string>>ans; // storing final ans and return
+        
+        map<string,set<string>>mp; // storing the prefix and whole string i use set because by default the sort the list
+        
+        int n=products.size();
+        
+        //Time Complexity is maximum of ( O(n*l*l) , O(l*l*map.size()) )
+        
+        //O(n*l*l)
+        for(int i=0;i<n;i++) // time complexity O(n)
+        {
+            string word=products[i];
+            
+            for(int j=0;j<word.length();j++) // time complexit O(l)
+            {
+                string s=word.substr(0,j+1);// O(l)   // create subsring and prefixes
+                mp[s].insert(word);                   // storing prefixes
+            }
+        }
+        //O(l*l*map.size())
+        
+        for(int i=0;i<searchWord.length();i++)  // time complexity O(l)
+        {
+            vector<string>a;
+            string s=searchWord.substr(0,i+1); // time complexity O(l)  // creating substring od searchWord
+            set<string>st=mp[s];                                        // storing set 
+            int k=3;
+            for(auto j=st.begin();j!=st.end();j++) // time complexity O(map.size());
+            {
+                if(k--==0)
+                    break;
+                a.push_back(*j);         
+            }
+            
+            ans.push_back(a);
+            
+        }
+        
+        
+        return ans;
+    }
+};
